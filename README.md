@@ -1,2 +1,2 @@
-# kubernetes-training
+# kubernetes-demos
 Kubernetes manifests
