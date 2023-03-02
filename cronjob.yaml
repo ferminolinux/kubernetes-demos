@@ -1,0 +1,27 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: ping-cj
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    metadata:
+      name: ping-job
+    spec:
+      template:
+        metadata:
+          name: ping
+          labels:
+            job-master: ping-cj
+        spec:
+          containers:
+            - name: ping
+              image: ghcr.io/ferminolinux/ping:latest
+              resources:
+                limits:
+                  memory: 128Mi
+                  cpu: 0.5
+                requests:
+                  memory: 64Mi
+                  cpu: 0.2
+          restartPolicy: OnFailure
