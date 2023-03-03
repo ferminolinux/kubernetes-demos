@@ -3,13 +3,13 @@ kind: Service
 metadata:
   name: nginx
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
-    app: webserver
+    app: nginx
   ports:
     - protocol: TCP
       port: 8080
-      targetPort: 80 
+      targetPort: 80
 ---
 
 apiVersion: apps/v1
@@ -20,24 +20,23 @@ spec:
   replicas: 3
   selector:
     matchLabels:
-      app: webserver
+      app: nginx
   template:
     metadata:
       name: nginx
       labels:
-        app: webserver
+        app: nginx
     spec:
       containers:
         - name: nginx
           image: docker.io/nginx:latest
           ports:
             - containerPort: 80
-              protocol: TCP
           resources:
             limits:
+              memory: 128Mi
+              cpu: 0.5
+            requests:
               memory: 64Mi
               cpu: 0.3
-            requests:
-              memory: 32Mi
-              cpu: 0.1
 
